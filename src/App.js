@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import TimeDisplay from "./components/TimeDisplay";
+import WatchDisplay from "./components/WatchDisplay";
+import { Button } from "@radix-ui/themes";
+
+export default function App() {
+    const [isStopWatch, setIsStopWatch] = useState(true);
+
+    function handleClick(event, msg) {
+        event.stopPropagation();
+
+        if (msg === "stopwatch") {
+            setIsStopWatch(true);
+        } else {
+            setIsStopWatch(false);
+        }
+    }
+
+    return (
+        <>
+            <div className="parent">
+                <TimeDisplay />
+                <WatchDisplay isStopWatch={isStopWatch} />
+
+                <div className="buttons">
+                    <Button
+                        onClick={(e) => handleClick(e,"stopwatch")}
+                        className={`btn ${isStopWatch ? "active" : null}`}
+                        color="green"
+                        variant="soft"
+                    >
+                        Stop Watch
+                    </Button>
+                    <Button
+                        onClick={(e) => handleClick(e,"timer")}
+                        className={`btn ${!isStopWatch ? "active" : null}`}
+                        color="green"
+                        variant="soft"
+                    >
+                        Timer
+                    </Button>
+                </div>
+
+                
+            </div>
+        </>
+    );
 }
-
-export default App;
